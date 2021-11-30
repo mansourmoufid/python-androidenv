@@ -96,7 +96,7 @@ Some useful configuration options when building for Android:
 
 ### NumPy
 
-    test -d "$ANDROID_SDK_ROOT" || echo "uhoh!"
+    test -d "$ANDROID_SDK_ROOT" || echo "uhoh"
     curl -L -O https://files.pythonhosted.org/packages/source/n/numpy/numpy-1.19.5.zip
     unzip numpy-1.19.5.zip
     cd numpy-1.19.5
