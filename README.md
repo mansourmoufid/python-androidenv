@@ -100,5 +100,5 @@ Some useful configuration options when building for Android:
     curl -L -O https://files.pythonhosted.org/packages/source/n/numpy/numpy-1.19.5.zip
     unzip numpy-1.19.5.zip
     cd numpy-1.19.5
-    ABI=arm64-v8a API=24 python -m androidenv python setup.py build
-    ABI=arm64-v8a API=24 python -m androidenv python setup.py install
+    ABI=arm64-v8a API=24 python -m androidenv setup.py build
+    ABI=arm64-v8a API=24 python -m androidenv setup.py install
