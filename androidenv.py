@@ -128,7 +128,8 @@ CPPFLAGS.append('-isysroot {}'.format(sysroot))
 CPPFLAGS.append('-isystem {}/usr/include/{}'.format(sysroot, triplet))
 CXXFLAGS = CFLAGS
 ldsysroot = '{}/platforms/android-{}/arch-{}'.format(ndk, api, arch)
-LDFLAGS.append('--sysroot={}'.format(ldsysroot))
+if os.path.exists(ldsysroot):
+    LDFLAGS.append('--sysroot={}'.format(ldsysroot))
 
 CFLAGS = ' '.join(CFLAGS)
 CPPFLAGS = ' '.join(CPPFLAGS)
