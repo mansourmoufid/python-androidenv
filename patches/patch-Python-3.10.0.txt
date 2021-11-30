@@ -1,0 +1,39 @@
+diff -ur Python-3.10.0.orig/Lib/distutils/sysconfig.py Python-3.10.0/Lib/distutils/sysconfig.py
+--- Python-3.10.0.orig/Lib/distutils/sysconfig.py	2021-11-30 13:25:29.000000000 -0500
++++ Python-3.10.0/Lib/distutils/sysconfig.py	2021-11-30 13:26:01.000000000 -0500
+@@ -252,6 +252,10 @@
+             archiver = ar + ' ' + os.environ['ARFLAGS']
+         else:
+             archiver = ar + ' ' + ar_flags
++        if 'RANLIB' in os.environ:
++            ranlib = os.environ['RANLIB']
++        else:
++            ranlib = None
+ 
+         cc_cmd = cc + ' ' + cflags
+         compiler.set_executables(
+@@ -261,7 +265,8 @@
+             compiler_cxx=cxx,
+             linker_so=ldshared,
+             linker_exe=cc,
+-            archiver=archiver)
++            archiver=archiver,
++            ranlib=ranlib)
+ 
+         compiler.shared_lib_extension = shlib_suffix
+ 
+diff -ur Python-3.10.0.orig/Lib/distutils/unixccompiler.py Python-3.10.0/Lib/distutils/unixccompiler.py
+--- Python-3.10.0.orig/Lib/distutils/unixccompiler.py	2021-11-30 13:25:29.000000000 -0500
++++ Python-3.10.0/Lib/distutils/unixccompiler.py	2021-11-30 13:26:01.000000000 -0500
+@@ -62,8 +62,9 @@
+                    'ranlib'       : None,
+                   }
+ 
+-    if sys.platform[:6] == "darwin":
+-        executables['ranlib'] = ["ranlib"]
++    if '_PYTHON_HOST_PLATFORM' not in os.environ:
++        if sys.platform[:6] == "darwin":
++            executables['ranlib'] = ["ranlib"]
+ 
+     # Needed for the filename generation methods provided by the base
+     # class, CCompiler.  NB. whoever instantiates/uses a particular
