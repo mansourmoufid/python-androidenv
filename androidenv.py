@@ -167,7 +167,10 @@ os.environ.update({'_PYTHON_HOST_PLATFORM': platform.system().lower()})
 
 
 if __name__ == '__main__':
-    if len(sys.argv) > 1 and sys.argv[1].endswith('.py'):
-        os.execv(sys.executable, [sys.executable] + sys.argv[1:])
-    else:
-        os.execvp(sys.argv[1], sys.argv[1:])
+
+    if len(sys.argv) > 1:
+
+        if sys.argv[1].endswith('.py'):
+            os.execv(sys.executable, [sys.executable] + sys.argv[1:])
+        else:
+            os.execvp(sys.argv[1], sys.argv[1:])
