@@ -174,3 +174,29 @@ if __name__ == '__main__':
             os.execv(sys.executable, [sys.executable] + sys.argv[1:])
         else:
             os.execvp(sys.argv[1], sys.argv[1:])
+
+    else:
+
+        def p(x):
+            if x in os.environ:
+                print('export {}="{}"'.format(x, os.environ[x]))
+
+        vars = (
+            'ABI',
+            'API',
+            'AR',
+            'AS',
+            'CC',
+            'CFLAGS',
+            'CPP',
+            'CPPFLAGS',
+            'CXX',
+            'CXXFLAGS',
+            'LD',
+            'LDFLAGS',
+            'PATH',
+            'RANLIB',
+            'TARGET',
+        )
+        for var in vars:
+            p(var)
