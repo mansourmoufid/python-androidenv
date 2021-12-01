@@ -78,6 +78,7 @@ if ndk_version < (19,):
             '--api', api,
             '--install-dir={}'.format(toolchain),
         ])
+    toolchain = os.path.realpath(toolchain)
     assert os.path.exists(toolchain), toolchain
     AR = '{}-ar'.format(target)
     AS = '{}-clang'.format(target)
