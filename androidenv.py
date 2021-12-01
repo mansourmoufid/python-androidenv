@@ -81,8 +81,10 @@ if ndk_version < (19,):
     assert os.path.exists(toolchain), toolchain
     AR = '{}-ar'.format(target)
     AS = '{}-clang'.format(target)
-    LD = '{}-ld'.format(target)
+    # LD = '{}-ld'.format(target)
+    LD = '{}-clang'.format(target)
     RANLIB = '{}-ranlib'.format(target)
+    LDFLAGS.append('-L{}/sysroot/usr/lib'.format(toolchain))
 else:
     host = '{}-{}'.format(platform.system(), platform.machine()).lower()
     if host == 'darwin-arm64':
@@ -110,6 +112,7 @@ else:
     LD = '{}-clang'.format(target)
     LDFLAGS.append('-fuse-ld=lld')
     RANLIB = 'llvm-ranlib'
+    CFLAGS.append('--sysroot={}'.format(sysroot))
     LDFLAGS.append('-L{}/usr/lib/{}'.format(sysroot, triplet))
     LDFLAGS.append('-L{}/usr/lib/{}/{}'.format(sysroot, triplet, api))
 toolchain = os.path.realpath(toolchain)
@@ -117,7 +120,6 @@ toolchain = os.path.realpath(toolchain)
 CC = '{}-clang'.format(target)
 CPP = '{} -E'.format(CC)
 CXX = '{}-clang++'.format(target)
-CFLAGS.append('--sysroot={}'.format(sysroot))
 CFLAGS.append('--target={}'.format(target))
 CFLAGS.append('-fpic')
 CFLAGS.append('-march={}'.format(march))
