@@ -146,8 +146,6 @@ PATH = os.pathsep.join(PATH)
 
 os.environ.update({'ABI': abi})
 os.environ.update({'API': api})
-os.environ.update({'ANDROIDLDSYSROOT': ldsysroot})
-os.environ.update({'ANDROIDSYSROOT': sysroot})
 os.environ.update({'TARGET': target})
 os.environ.update({'AR': AR})
 os.environ.update({'AS': AS})
