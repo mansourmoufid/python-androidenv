@@ -145,6 +145,7 @@ PATH.insert(0, '{}/{}/bin'.format(toolchain, triplet))
 PATH = os.pathsep.join(PATH)
 
 os.environ.update({'ABI': abi})
+os.environ.update({'API': api})
 os.environ.update({'ANDROIDLDSYSROOT': ldsysroot})
 os.environ.update({'ANDROIDSYSROOT': sysroot})
 os.environ.update({'TARGET': target})
