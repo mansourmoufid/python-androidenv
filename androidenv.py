@@ -140,8 +140,8 @@ CXXFLAGS = ' '.join(CXXFLAGS)
 LDFLAGS = ' '.join(LDFLAGS)
 
 PATH = os.environ.get('PATH', '').split(os.pathsep)
-PATH.insert(0, '{}/bin'.format(toolchain))
-PATH.insert(0, '{}/{}/bin'.format(toolchain, triplet))
+PATH.append('{}/bin'.format(toolchain))
+PATH.append('{}/{}/bin'.format(toolchain, triplet))
 PATH = os.pathsep.join(PATH)
 
 os.environ.update({'ABI': abi})
