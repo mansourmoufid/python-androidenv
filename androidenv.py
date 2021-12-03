@@ -67,8 +67,6 @@ else:
 ndk_version = tuple(int(x) for x in ndk_version.split('.'))
 
 if ndk_version < (19,):
-    sysroot = os.path.join(ndk, 'sysroot')
-    assert os.path.exists(sysroot)
     target = triplet
     toolchain = '{}-{}-toolchain'.format(target, api)
     if not os.path.exists(toolchain):
@@ -85,7 +83,6 @@ if ndk_version < (19,):
     # LD = '{}-ld'.format(target)
     LD = '{}-clang'.format(target)
     RANLIB = '{}-ranlib'.format(target)
-    LDFLAGS.append('-L{}/sysroot/usr/lib'.format(toolchain))
 else:
     host = '{}-{}'.format(platform.system(), platform.machine()).lower()
     if host == 'darwin-arm64':
@@ -99,8 +96,6 @@ else:
             host
         )
     assert os.path.exists(toolchain), toolchain
-    sysroot = os.path.join(toolchain, 'sysroot')
-    assert os.path.exists(sysroot)
     if abi == 'armeabi-v7a':
         target = 'armv7a-linux-androideabi{}'.format(api)
     elif abi == 'arm64-v8a':
@@ -113,10 +108,9 @@ else:
     LD = '{}-clang'.format(target)
     LDFLAGS.append('-fuse-ld=lld')
     RANLIB = 'llvm-ranlib'
-    CFLAGS.append('--sysroot={}'.format(sysroot))
-    LDFLAGS.append('-L{}/usr/lib/{}'.format(sysroot, triplet))
-    LDFLAGS.append('-L{}/usr/lib/{}/{}'.format(sysroot, triplet, api))
 toolchain = os.path.realpath(toolchain)
+sysroot = os.path.join(toolchain, 'sysroot')
+assert os.path.exists(sysroot), sysroot
 
 CC = '{}-clang'.format(target)
 CPP = '{} -E'.format(CC)
@@ -126,13 +120,11 @@ CFLAGS.append('-fpic')
 CFLAGS.append('-march={}'.format(march))
 CFLAGS.append('-mtune=generic')
 CFLAGS.append('-mfloat-abi=softfp')
+CFLAGS.append('--sysroot={}'.format(sysroot))
 CPPFLAGS.append('-D__ANDROID_API__={}'.format(api))
 CPPFLAGS.append('-isysroot {}'.format(sysroot))
 CPPFLAGS.append('-isystem {}/usr/include/{}'.format(sysroot, triplet))
 CXXFLAGS = CFLAGS
-ldsysroot = '{}/platforms/android-{}/arch-{}'.format(ndk, api, arch)
-if os.path.exists(ldsysroot):
-    LDFLAGS.append('--sysroot={}'.format(ldsysroot))
 
 CFLAGS = ' '.join(CFLAGS)
 CPPFLAGS = ' '.join(CPPFLAGS)
