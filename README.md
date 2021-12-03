@@ -29,11 +29,9 @@ You may need to use sudo.
 
 ## Install androidenv
 
-Install from source:
+Install from the Python Package Index:
 
-    gunzip < androidenv-0.1.tar.gz | tar -f - -x
-    cd androidenv-0.1
-    python setup.py install
+    pip install androidenv
 
 You can also copy the file androidenv.py to where you need it,
 it is self contained.
