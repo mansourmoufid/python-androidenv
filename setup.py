@@ -32,6 +32,7 @@ if __name__ == '__main__':
         description=androidenv.__doc__,
         license=androidenv.__license__,
         long_description=_long_description,
+        long_description_content_type='text/markdown',
         name='androidenv',
         py_modules=['androidenv'],
         url='https://github.com/eliteraspberries/python-androidenv',
