@@ -47,11 +47,20 @@ if not os.path.exists(ndk):
 assert os.path.exists(ndk), ndk
 
 CFLAGS = [
+    '-fno-strict-aliasing',
+    '-fno-strict-overflow',
+    '-fpic',
+    '-fwrapv',
     '-Wno-macro-redefined',
     '-Wno-unused-command-line-argument',
 ]
-CPPFLAGS = []
-LDFLAGS = []
+CPPFLAGS = [
+    '-D_FORTIFY_SOURCE=1',
+]
+LDFLAGS = [
+    '-Wl,-z,noexecstack',
+    '-Wl,-z,relro',
+]
 
 if os.path.exists(os.path.join(ndk, 'source.properties')):
     for line in open(os.path.join(ndk, 'source.properties'), 'rt'):
@@ -116,7 +125,6 @@ CC = '{}-clang'.format(target)
 CPP = '{} -E'.format(CC)
 CXX = '{}-clang++'.format(target)
 CFLAGS.append('--target={}'.format(target))
-CFLAGS.append('-fpic')
 CFLAGS.append('-march={}'.format(march))
 CFLAGS.append('-mtune=generic')
 CFLAGS.append('-mfloat-abi=softfp')
