@@ -89,6 +89,15 @@ if libpython is not None:
                 LDFLAGS.append(x)
                 break
 
+debug = bool(int(os.environ.get('DEBUG', 1)))
+if debug:
+    CFLAGS.append('-g')
+    CFLAGS.append('-O0')
+else:
+    CFLAGS.append('-Os')
+    CPPFLAGS.append('-DNDEBUG=1')
+    LDFLAGS.append('-Wl,-S')
+
 if os.path.exists(os.path.join(ndk, 'source.properties')):
     for line in open(os.path.join(ndk, 'source.properties'), 'rt'):
         match = re.search(r'Pkg.Revision = ([0-9.]+)', line)

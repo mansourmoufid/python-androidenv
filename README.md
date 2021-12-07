@@ -60,6 +60,7 @@ Input environment variables:
  - ANDROID_SDK_ROOT or ANDROID_HOME (required);
  - ABI (optional; armeabi-v7a or arm64-v8a);
  - API (optional);
+ - DEBUG (optional; 0 or 1);
 
 What is being built must respect the following evironment variables:
 
