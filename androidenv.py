@@ -62,6 +62,33 @@ LDFLAGS = [
     '-Wl,-z,relro',
 ]
 
+def splitescaped(xs):
+    return re.split(r'(?<!\\) ', xs)
+
+for x in splitescaped(os.environ.get('CPPFLAGS', '')):
+    match = re.search(r'-I(.+)', x)
+    if match:
+        path = match.group(1).replace('\ ', ' ')
+        if os.path.exists(os.path.join(path, 'Python.h')):
+            CPPFLAGS.append(x)
+            break
+libpython = None
+for x in splitescaped(os.environ.get('LDFLAGS', '')):
+    match = re.search(r'-l(python.*)', x)
+    if match:
+        libpython = match.group(1)
+        LDFLAGS.append(x)
+        break
+if libpython is not None:
+    for x in splitescaped(os.environ.get('LDFLAGS', '')):
+        match = re.search(r'-L(.+)', x)
+        if match:
+            path = match.group(1).replace('\ ', ' ')
+            lib = os.path.join(path, 'lib{}.so'.format(libpython))
+            if os.path.exists(lib):
+                LDFLAGS.append(x)
+                break
+
 if os.path.exists(os.path.join(ndk, 'source.properties')):
     for line in open(os.path.join(ndk, 'source.properties'), 'rt'):
         match = re.search(r'Pkg.Revision = ([0-9.]+)', line)
