@@ -128,6 +128,7 @@ if ndk_version < (19,):
     # LD = '{}-ld'.format(target)
     LD = '{}-clang'.format(target)
     RANLIB = '{}-ranlib'.format(target)
+    READELF = '{}-readelf'.format(target)
 else:
     host = '{}-{}'.format(platform.system(), platform.machine()).lower()
     if host == 'darwin-arm64':
@@ -153,6 +154,7 @@ else:
     LD = '{}-clang'.format(target)
     LDFLAGS.append('-fuse-ld=lld')
     RANLIB = 'llvm-ranlib'
+    READELF = 'llvm-readelf'
 toolchain = os.path.realpath(toolchain)
 sysroot = os.path.join(toolchain, 'sysroot')
 assert os.path.exists(sysroot), sysroot
@@ -190,6 +192,7 @@ os.environ.update({'CPP': CPP})
 os.environ.update({'CXX': CXX})
 os.environ.update({'LD': LD})
 os.environ.update({'RANLIB': RANLIB})
+os.environ.update({'READELF': READELF})
 os.environ.update({'CFLAGS': CFLAGS})
 os.environ.update({'CPPFLAGS': CPPFLAGS})
 os.environ.update({'CXXFLAGS': CXXFLAGS})
