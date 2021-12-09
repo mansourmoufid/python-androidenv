@@ -118,7 +118,9 @@ if ndk_version < (19,):
     toolchain = '{}-{}-toolchain'.format(target, api)
     if not os.path.exists(toolchain):
         subprocess.run([
-            os.path.join(ndk, 'build/tools/make_standalone_toolchain.py'),
+            os.path.join(
+                ndk, 'build', 'tools', 'make_standalone_toolchain.py',
+            ),
             '--arch', arch,
             '--api', api,
             '--install-dir={}'.format(toolchain),
@@ -135,12 +137,12 @@ else:
     host = '{}-{}'.format(platform.system(), platform.machine()).lower()
     if host == 'darwin-arm64':
         host = 'darwin-x86_64'
-    toolchain = os.path.join(ndk, 'toolchains/llvm/prebuilt', host)
+    toolchain = os.path.join(ndk, 'toolchains', 'llvm', 'prebuilt', host)
     if not os.path.exists(toolchain):
         toolchain = os.path.join(
             ndk,
             '.'.join(str(x) for x in ndk_version),
-            'toolchains/llvm/prebuilt',
+            'toolchains', 'llvm', 'prebuilt',
             host
         )
     assert os.path.exists(toolchain), toolchain
@@ -171,7 +173,9 @@ CFLAGS.append('-mfloat-abi=softfp')
 CFLAGS.append('--sysroot={}'.format(sysroot))
 CPPFLAGS.append('-D__ANDROID_API__={}'.format(api))
 CPPFLAGS.append('-isysroot {}'.format(sysroot))
-CPPFLAGS.append('-isystem {}/usr/include/{}'.format(sysroot, triplet))
+CPPFLAGS.append('-isystem {}'.format(
+    os.path.join(sysroot, 'usr', 'include', triplet)
+))
 CXXFLAGS = CFLAGS
 
 CFLAGS = ' '.join(CFLAGS)
@@ -180,8 +184,8 @@ CXXFLAGS = ' '.join(CXXFLAGS)
 LDFLAGS = ' '.join(LDFLAGS)
 
 PATH = os.environ.get('PATH', '').split(os.pathsep)
-PATH.append('{}/bin'.format(toolchain))
-PATH.append('{}/{}/bin'.format(toolchain, triplet))
+PATH.append(os.path.join(toolchain, 'bin'))
+PATH.append(os.path.join(toolchain, triplet, 'bin'))
 PATH = os.pathsep.join(PATH)
 
 os.environ.update({'ABI': abi})
