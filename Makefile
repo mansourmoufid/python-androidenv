@@ -7,6 +7,10 @@ check:
 sdist:
 	python setup.py sdist --formats=gztar
 
+.PHONY: upload
+upload:
+	twine upload dist/* --verbose
+
 .PHONY: cleanup
 cleanup:
 	rm -rf build
