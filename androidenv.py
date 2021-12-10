@@ -235,6 +235,7 @@ if __name__ == '__main__':
                 print('export {}="{}"'.format(x, os.environ[x]))
 
         vars = (
+            '_PYTHON_HOST_PLATFORM',
             'ABI',
             'API',
             'AR',
@@ -247,8 +248,10 @@ if __name__ == '__main__':
             'CXXFLAGS',
             'LD',
             'LDFLAGS',
+            'LDSHARED',
             'PATH',
             'RANLIB',
+            'READELF',
             'TARGET',
         )
         for var in vars:
