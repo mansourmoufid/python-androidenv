@@ -163,6 +163,15 @@ toolchain = os.path.realpath(toolchain)
 sysroot = os.path.join(toolchain, 'sysroot')
 assert os.path.exists(sysroot), sysroot
 
+# distutils.command.build_ext.compiler.find_library_file
+libdirs = [
+    os.path.join(toolchain, 'sysroot', 'usr', 'lib'),
+    os.path.join(sysroot, 'usr', 'lib', triplet, api),
+]
+for dir in libdirs:
+    if os.path.exists(dir):
+        LDFLAGS.append('-L{}'.format(dir))
+
 CC = '{}-clang'.format(target)
 CPP = '{} -E'.format(CC)
 CXX = '{}-clang++'.format(target)
