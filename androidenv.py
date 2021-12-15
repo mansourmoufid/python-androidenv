@@ -188,7 +188,10 @@ CPPFLAGS.append('-isystem {}'.format(
     os.path.join(sysroot, 'usr', 'include', triplet)
 ))
 if abi == 'armeabi-v7a':
+    CFLAGS.append('-mfpu=vfpv3')
     LDFLAGS.append('-Wl,--fix-cortex-a8')
+elif abi == 'arm64-v8a':
+    CFLAGS.append('-mfpu=neon')
 CXXFLAGS = CFLAGS
 
 CFLAGS = ' '.join(CFLAGS)
