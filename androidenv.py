@@ -60,6 +60,7 @@ CPPFLAGS = [
 LDFLAGS = [
     '-Wl,-z,noexecstack',
     '-Wl,-z,relro',
+    '-pie',
 ]
 
 
@@ -176,6 +177,7 @@ CC = '{}-clang'.format(target)
 CPP = '{} -E'.format(CC)
 CXX = '{}-clang++'.format(target)
 CFLAGS.append('--target={}'.format(target))
+LDFLAGS.append('--target={}'.format(target))
 CFLAGS.append('-march={}'.format(march))
 CFLAGS.append('-mtune=generic')
 CFLAGS.append('-mfloat-abi=softfp')
@@ -185,6 +187,8 @@ CPPFLAGS.append('-isysroot {}'.format(sysroot))
 CPPFLAGS.append('-isystem {}'.format(
     os.path.join(sysroot, 'usr', 'include', triplet)
 ))
+if abi == 'armeabi-v7a':
+    LDFLAGS.append('-Wl,--fix-cortex-a8')
 CXXFLAGS = CFLAGS
 
 CFLAGS = ' '.join(CFLAGS)
