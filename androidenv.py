@@ -10,7 +10,7 @@ import sys
 __author__ = 'Mansour Moufid'
 __copyright__ = 'Copyright 2021, Mansour Moufid'
 __license__ = 'ISC'
-__version__ = '0.5'
+__version__ = '0.6'
 __email__ = 'mansourmoufid@gmail.com'
 __status__ = 'Development'
 
