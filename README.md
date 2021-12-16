@@ -94,6 +94,24 @@ Some useful configuration options when building for Android:
 
 ## Examples
 
+### Python
+
+    test -d "$ANDROID_SDK_ROOT" || echo "uhoh"
+    gunzip < Python-3.7.11.tgz | tar -f - -x
+    cd Python-3.7.11
+    cp configure.ac configure.ac.orig
+    sed -e 's/ $host / "$host" /' -e 's/"$host"/"$build"/' \
+        < configure.ac.orig > configure.ac
+    autoreconf -f -i
+    python -m androidenv /bin/sh
+    ./configure \
+        --host=aarch64-apple-darwin \
+        --build=aarch64-linux-android \
+        --disable-ipv6 \
+        ac_cv_file__dev_ptmx=no \
+        ac_cv_file__dev_ptc=no
+    make
+
 ### NumPy
 
     test -d "$ANDROID_SDK_ROOT" || echo "uhoh"
