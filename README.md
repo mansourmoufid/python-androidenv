@@ -115,9 +115,8 @@ Some useful configuration options when building for Android:
 ### NumPy
 
     test -d "$ANDROID_SDK_ROOT" || echo "uhoh"
-    curl -L -O https://files.pythonhosted.org/packages/source/n/numpy/numpy-1.19.5.zip
-    unzip numpy-1.19.5.zip
-    cd numpy-1.19.5
+    unzip numpy-1.20.3.zip
+    cd numpy-1.20.3
     export BLAS=None LAPACK=None ATLAS=None
     ABI=arm64-v8a API=24 python -m androidenv setup.py build
     ABI=arm64-v8a API=24 python -m androidenv setup.py install
