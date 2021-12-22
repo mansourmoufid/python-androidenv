@@ -206,7 +206,7 @@ PATH = os.pathsep.join(PATH)
 
 os.environ.update({'ABI': abi})
 os.environ.update({'API': api})
-os.environ.update({'TARGET': target})
+os.environ.update({'TARGET': triplet})
 os.environ.update({'AR': AR})
 os.environ.update({'AS': AS})
 os.environ.update({'CC': CC})
