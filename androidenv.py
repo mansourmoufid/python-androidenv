@@ -226,11 +226,33 @@ os.environ.update({'LDSHARED': '{} -shared'.format(LD)})
 os.environ.update({'_PYTHON_HOST_PLATFORM': platform.system().lower()})
 
 
+def find(dir, name):
+    for root, dirs, files in os.walk(dir, topdown=False):
+        for filename in files:
+            if re.search(name, filename):
+                yield os.path.join(root, filename)
+
+
+def find_library(name):
+    ldsysroot = os.path.join(sysroot, 'usr', 'lib', triplet, api)
+    if not os.path.exists(ldsysroot):
+        ldsysroot = sysroot
+    if not name.startswith('lib'):
+        name = 'lib' + name
+    if not name.endswith('.so'):
+        name = name + '.so'
+    return find(ldsysroot, name)
+
+
 if __name__ == '__main__':
 
     if len(sys.argv) > 1:
 
-        if sys.argv[1].endswith('.py'):
+        if sys.argv[1] == '--find-library':
+            for lib in sys.argv[2:]:
+                for path in find_library(lib):
+                    print(path)
+        elif sys.argv[1].endswith('.py'):
             os.execv(sys.executable, [sys.executable] + sys.argv[1:])
         else:
             os.execvp(sys.argv[1], sys.argv[1:])

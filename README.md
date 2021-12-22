@@ -51,6 +51,11 @@ You really want to do this in a [virtual environment][venv].
 [venv]: https://docs.python.org/3/library/venv.html
 
 
+Use the --find-library option to find libraries like libandroid or liblog:
+
+    python -m androidenv --find-library android log
+
+
 ## Environment variables
 
 This module works entirely with environment variables.
