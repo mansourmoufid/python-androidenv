@@ -29,13 +29,10 @@ elif abi == 'arm64-v8a':
 else:
     raise NotImplementedError('ABI={}'.format(abi))
 
+assert 'ANDROID_SDK_ROOT' in os.environ or 'ANDROID_HOME' in os.environ
 sdk = os.environ.get('ANDROID_SDK_ROOT', None)
 if sdk is None:
-    sdk = os.environ.get('ANDROIDSDK', None)
-if sdk is None:
     home = os.environ.get('ANDROID_HOME', None)
-    if home is None:
-        home = os.environ.get('ANDROIDHOME', None)
     sdk = os.path.join(home, 'sdk')
 else:
     home = os.path.dirname(sdk)
