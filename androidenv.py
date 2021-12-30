@@ -16,18 +16,28 @@ __status__ = 'Development'
 
 
 abi = os.environ.get('ABI', 'arm64-v8a')
+assert abi in ['armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'], abi
 if abi == 'armeabi-v7a':
-    api = os.environ.get('API', '19')
     arch = 'arm'
     march = 'armv7-a'
     triplet = 'arm-linux-androideabi'
 elif abi == 'arm64-v8a':
-    api = os.environ.get('API', '21')
     arch = 'arm64'
     march = 'armv8-a'
     triplet = 'aarch64-linux-android'
+elif abi == 'x86':
+    arch = 'x86'
+    march = 'i686'
+    triplet = 'i686-linux-android'
+elif abi == 'x86_64':
+    arch = 'x86_64'
+    march = 'x86-64'
+    triplet = 'x86_64-linux-android'
+
+if abi in ('arm64-v8a', 'x86_64'):
+    api = os.environ.get('API', '21')
 else:
-    raise NotImplementedError('ABI={}'.format(abi))
+    api = os.environ.get('API', '19')
 
 assert 'ANDROID_SDK_ROOT' in os.environ or 'ANDROID_HOME' in os.environ
 sdk = os.environ.get('ANDROID_SDK_ROOT', None)
@@ -148,8 +158,10 @@ else:
         target = 'armv7a-linux-androideabi{}'.format(api)
     elif abi == 'arm64-v8a':
         target = 'aarch64-linux-android{}'.format(api)
-    else:
-        raise NotImplementedError
+    elif abi == 'x86':
+        target = 'i686-linux-android{}'.format(api)
+    elif abi == 'x86_64':
+        target = 'x86_64-linux-android{}'.format(api)
     AR = 'llvm-ar'
     AS = 'llvm-as'
     # LD = 'ld.lld'
@@ -177,18 +189,21 @@ CFLAGS.append('--target={}'.format(target))
 LDFLAGS.append('--target={}'.format(target))
 CFLAGS.append('-march={}'.format(march))
 CFLAGS.append('-mtune=generic')
-CFLAGS.append('-mfloat-abi=softfp')
+if abi == 'armeabi-v7a':
+    CFLAGS += ['-mfloat-abi=softfp', '-mfpu=vfpv3']
+    LDFLAGS.append('-Wl,--fix-cortex-a8')
+elif abi == 'arm64-v8a':
+    CFLAGS.append('-mfpu=neon')
+elif abi == 'x86':
+    CFLAGS += ['-m32', '-mfpmath=sse', '-mssse3']
+elif abi == 'x86_64':
+    CFLAGS += ['-m64', '-mfpmath=sse', '-msse4.2']
 CFLAGS.append('--sysroot={}'.format(sysroot))
 CPPFLAGS.append('-D__ANDROID_API__={}'.format(api))
 CPPFLAGS.append('-isysroot {}'.format(sysroot))
 CPPFLAGS.append('-isystem {}'.format(
     os.path.join(sysroot, 'usr', 'include', triplet)
 ))
-if abi == 'armeabi-v7a':
-    CFLAGS.append('-mfpu=vfpv3')
-    LDFLAGS.append('-Wl,--fix-cortex-a8')
-elif abi == 'arm64-v8a':
-    CFLAGS.append('-mfpu=neon')
 CXXFLAGS = CFLAGS
 
 CFLAGS = ' '.join(CFLAGS)
