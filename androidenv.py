@@ -217,6 +217,8 @@ PATH.append(os.path.join(toolchain, 'bin'))
 PATH.append(os.path.join(toolchain, triplet, 'bin'))
 PATH = os.pathsep.join(PATH)
 
+if 'ANDROID_SDK_ROOT' not in os.environ:
+    os.environ.update({'ANDROID_SDK_ROOT': sdk})
 os.environ.update({'ABI': abi})
 os.environ.update({'API': api})
 os.environ.update({'TARGET': triplet})
@@ -279,6 +281,7 @@ if __name__ == '__main__':
         vars = (
             '_PYTHON_HOST_PLATFORM',
             'ABI',
+            'ANDROID_SDK_ROOT',
             'API',
             'AR',
             'AS',
