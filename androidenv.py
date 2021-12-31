@@ -175,7 +175,8 @@ assert os.path.exists(sysroot), sysroot
 
 # distutils.command.build_ext.compiler.find_library_file
 libdirs = [
-    os.path.join(toolchain, 'sysroot', 'usr', 'lib'),
+    os.path.join(sysroot, 'usr', 'lib64'),
+    os.path.join(sysroot, 'usr', 'lib'),
     os.path.join(sysroot, 'usr', 'lib', triplet, api),
 ]
 for dir in libdirs:
