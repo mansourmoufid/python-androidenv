@@ -241,22 +241,26 @@ os.environ.update({'LDSHARED': '{} -shared'.format(LD)})
 os.environ.update({'_PYTHON_HOST_PLATFORM': platform.system().lower()})
 
 
-def find(dir, name):
-    for root, dirs, files in os.walk(dir, topdown=False):
-        for filename in files:
-            if re.search(name, filename):
-                yield os.path.join(root, filename)
+def find(dirs, name):
+    for dir in dirs:
+        for root, _, files in os.walk(dir, topdown=False):
+            for filename in files:
+                if re.search(name, filename):
+                    yield os.path.join(root, filename)
+                    return
 
 
 def find_library(name):
-    ldsysroot = os.path.join(sysroot, 'usr', 'lib', triplet, api)
-    if not os.path.exists(ldsysroot):
-        ldsysroot = sysroot
+    dirs = [
+        os.path.join(sysroot, 'usr', 'lib', triplet, api),
+        os.path.join(sysroot, 'usr', 'lib', triplet),
+        sysroot,
+    ]
     if not name.startswith('lib'):
         name = 'lib' + name
     if not name.endswith('.so'):
         name = name + '.so'
-    return find(ldsysroot, name)
+    return find(dirs, name)
 
 
 if __name__ == '__main__':
