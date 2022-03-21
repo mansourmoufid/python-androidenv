@@ -75,6 +75,16 @@ def splitescaped(xs):
     return re.split(r'(?<!\\) ', xs)
 
 
+def search(exp, str):
+    try:
+        match = re.search(exp, str)
+        if match:
+            return match.group(0)
+    except re.error:
+        return str if exp == str else None
+    return None
+
+
 for x in splitescaped(os.environ.get('CPPFLAGS', '')):
     match = re.search(r'-I(.+)', x)
     if match:
@@ -245,7 +255,8 @@ def find(dirs, name):
     for dir in dirs:
         for root, _, files in os.walk(dir, topdown=False):
             for filename in files:
-                if re.search(name, filename):
+                match = search(name, filename)
+                if match:
                     yield os.path.join(root, filename)
                     return
 
