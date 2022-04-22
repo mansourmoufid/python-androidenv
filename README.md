@@ -82,6 +82,7 @@ What is being built must respect the following evironment variables:
  - PATH
  - RANLIB
  - READELF
+ - STRIP
 
 Many packages do, many don't.  Python itself (distutils) does not respect
 RANLIB; CMake does not respect CPPFLAGS; and many more.  Fixing that is

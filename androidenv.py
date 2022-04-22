@@ -179,6 +179,7 @@ else:
     LDFLAGS.append('-fuse-ld=lld')
     RANLIB = 'llvm-ranlib'
     READELF = 'llvm-readelf'
+STRIP = 'llvm-strip'
 toolchain = os.path.realpath(toolchain)
 sysroot = os.path.join(toolchain, 'sysroot')
 assert os.path.exists(sysroot), sysroot
@@ -240,6 +241,7 @@ os.environ.update({'CXX': CXX})
 os.environ.update({'LD': LD})
 os.environ.update({'RANLIB': RANLIB})
 os.environ.update({'READELF': READELF})
+os.environ.update({'STRIP': STRIP})
 os.environ.update({'CFLAGS': CFLAGS})
 os.environ.update({'CPPFLAGS': CPPFLAGS})
 os.environ.update({'CXXFLAGS': CXXFLAGS})
@@ -312,6 +314,7 @@ if __name__ == '__main__':
             'PATH',
             'RANLIB',
             'READELF',
+            'STRIP',
             'TARGET',
         )
         for var in vars:
