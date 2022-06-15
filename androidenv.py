@@ -53,6 +53,7 @@ if not os.path.exists(ndk):
     ndk = os.path.join(sdk, 'ndk')
 assert os.path.exists(ndk), ndk
 
+ASFLAGS = []
 CFLAGS = [
     '-fno-strict-aliasing',
     '-fno-strict-overflow',
@@ -173,7 +174,9 @@ else:
     elif abi == 'x86_64':
         target = 'x86_64-linux-android{}'.format(api)
     AR = 'llvm-ar'
-    AS = 'llvm-as'
+    # AS = 'llvm-as'
+    AS = '{}-clang'.format(target)
+    ASFLAGS.append('-fintegrated-as')
     # LD = 'ld.lld'
     LD = '{}-clang'.format(target)
     LDFLAGS.append('-fuse-ld=lld')
@@ -197,6 +200,7 @@ for dir in libdirs:
 CC = '{}-clang'.format(target)
 CPP = '{} -E'.format(CC)
 CXX = '{}-clang++'.format(target)
+ASFLAGS.append('--target={}'.format(target))
 CFLAGS.append('--target={}'.format(target))
 LDFLAGS.append('--target={}'.format(target))
 CFLAGS.append('-march={}'.format(march))
@@ -218,6 +222,7 @@ CPPFLAGS.append('-isystem {}'.format(
 ))
 CXXFLAGS = CFLAGS
 
+ASFLAGS = ' '.join(ASFLAGS)
 CFLAGS = ' '.join(CFLAGS)
 CPPFLAGS = ' '.join(CPPFLAGS)
 CXXFLAGS = ' '.join(CXXFLAGS)
@@ -242,6 +247,7 @@ os.environ.update({'LD': LD})
 os.environ.update({'RANLIB': RANLIB})
 os.environ.update({'READELF': READELF})
 os.environ.update({'STRIP': STRIP})
+os.environ.update({'ASFLAGS': ASFLAGS})
 os.environ.update({'CFLAGS': CFLAGS})
 os.environ.update({'CPPFLAGS': CPPFLAGS})
 os.environ.update({'CXXFLAGS': CXXFLAGS})
@@ -303,6 +309,7 @@ if __name__ == '__main__':
             'AR',
             'AS',
             'CC',
+            'ASFLAGS',
             'CFLAGS',
             'CPP',
             'CPPFLAGS',
