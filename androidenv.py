@@ -86,6 +86,16 @@ def search(exp, str):
     return None
 
 
+ldflags = [
+    r'^-L.*',
+    r'^-l.*',
+]
+for x in splitescaped(os.environ.get('LDFLAGS', '')):
+    for ldflag in ldflags:
+        match = search(ldflag, x)
+        if match:
+            LDFLAGS.append(match)
+
 for x in splitescaped(os.environ.get('CPPFLAGS', '')):
     match = re.search(r'-I(.+)', x)
     if match:
