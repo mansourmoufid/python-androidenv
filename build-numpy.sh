@@ -18,7 +18,7 @@ test -f ${DESTDIR}${PREFIX}/bin/python3 || (
     test -d Python-${PYTHON_VERSION} || \
         gunzip < Python-${PYTHON_VERSION}.tgz | tar -f - -x
     (
-        patch -f -p1 -d Python-${PYTHON_VERSION} < patches/patch-Python-3.10.0.txt
+        patch -f -p1 -d Python-${PYTHON_VERSION} < ${dir}/patches/patch-Python-3.10.0.txt
     ) || true
     cd Python-${PYTHON_VERSION}
     test -f configure.ac.orig || (
