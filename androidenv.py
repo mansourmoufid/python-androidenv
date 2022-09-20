@@ -265,10 +265,6 @@ os.environ.update({'CXXFLAGS': CXXFLAGS})
 os.environ.update({'LDFLAGS': LDFLAGS})
 os.environ.update({'PATH': PATH})
 
-# Python setuptools
-os.environ.update({'LDSHARED': '{} -shared'.format(LD)})
-os.environ.update({'_PYTHON_HOST_PLATFORM': platform.system().lower()})
-
 
 def find(dirs, name):
     for dir in dirs:
@@ -313,7 +309,6 @@ if __name__ == '__main__':
                 print('export {}="{}"'.format(x, os.environ[x]))
 
         vars = (
-            '_PYTHON_HOST_PLATFORM',
             'ABI',
             'ANDROID_SDK_ROOT',
             'API',
@@ -328,7 +323,6 @@ if __name__ == '__main__':
             'CXXFLAGS',
             'LD',
             'LDFLAGS',
-            'LDSHARED',
             'PATH',
             'RANLIB',
             'READELF',
