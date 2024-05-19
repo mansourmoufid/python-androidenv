@@ -55,6 +55,7 @@ assert os.path.exists(ndk), ndk
 
 ASFLAGS = []
 CFLAGS = [
+    '-fno-delete-null-pointer-checks',
     '-fno-strict-aliasing',
     '-fno-strict-overflow',
     '-fpic',
