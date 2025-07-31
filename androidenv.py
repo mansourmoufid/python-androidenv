@@ -8,9 +8,9 @@ import sys
 
 
 __author__ = 'Mansour Moufid'
-__copyright__ = 'Copyright 2021, 2022, Mansour Moufid'
+__copyright__ = 'Copyright 2021-2025, Mansour Moufid'
 __license__ = 'ISC'
-__version__ = '0.9'
+__version__ = '1.0'
 __email__ = 'mansourmoufid@gmail.com'
 __status__ = 'Development'
 
