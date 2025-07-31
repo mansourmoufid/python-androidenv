@@ -70,7 +70,6 @@ LDFLAGS = [
     '-Wl,-z,noexecstack',
     '-Wl,-z,now',
     '-Wl,-z,relro',
-    '-pie',
 ]
 
 
