@@ -220,7 +220,7 @@ if abi == 'armeabi-v7a':
     CFLAGS += ['-mfloat-abi=softfp', '-mfpu=vfpv3']
     LDFLAGS.append('-Wl,--fix-cortex-a8')
 elif abi == 'arm64-v8a':
-    CFLAGS.append('-mfpu=neon')
+    pass
 elif abi == 'x86':
     CFLAGS += ['-m32', '-mfpmath=sse', '-mssse3']
 elif abi == 'x86_64':
