@@ -12,7 +12,7 @@ __copyright__ = 'Copyright 2021-2025, Mansour Moufid'
 __license__ = 'ISC'
 __version__ = '1.0'
 __email__ = 'mansourmoufid@gmail.com'
-__status__ = 'Development'
+__status__ = 'Production'
 
 
 abi = os.environ.get('ABI', 'arm64-v8a')
