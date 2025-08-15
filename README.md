@@ -1,4 +1,4 @@
-Build native packages for Android.
+Build native C/C++ packages for Android.
 
 
 ## Requirements
