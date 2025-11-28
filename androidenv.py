@@ -61,6 +61,7 @@ CFLAGS = [
     '-fno-strict-aliasing',
     '-fno-strict-overflow',
     '-fpic',
+    '-fstack-protector',
     '-fwrapv',
     '-Wno-macro-redefined',
     '-Wno-unused-command-line-argument',
